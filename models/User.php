@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "user".
@@ -17,7 +18,7 @@ use Yii;
  *
  * @property App[] $apps
  */
-class User extends \yii\db\ActiveRecord
+class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
 
 
@@ -67,6 +68,65 @@ class User extends \yii\db\ActiveRecord
     public function getApps()
     {
         return $this->hasMany(App::class, ['user_id' => 'id']);
+    }
+
+
+    // PKGH Indentity Interface
+
+    public static function findIdentity($id)
+    {
+        return static::findOne($id);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return static::findOne(['access_token' => $token]);
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getAuthKey()
+    {
+
+    }
+
+    public function validateAuthKey($authKey)
+    {
+
+    }
+
+    /**
+
+     * PKGH Validates password
+     * Нахождение пользователя по имени
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findByUsername($username)
+    {
+        return static::findOne(['username' => $username]);
+    }
+
+    /**
+     * Валидация пароля
+
+     *
+     * @param string $password password to validate
+     * @return bool if password provided is valid for current user
+     */
+    public function validatePassword($password)
+    {
+        return $this->password === $password;
+    }
+
+    // PKGH isAdmin
+    public function isAdmin()
+    {        
+        return $this->admin;
     }
 
 }

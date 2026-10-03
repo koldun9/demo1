@@ -84,4 +84,14 @@ class App extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
+    /**
+     * PKGH Текст для всплывающего сообщения
+     * @return string
+     */
+
+     public function getInfo()
+    {
+        return "{$this->user->full_name}: {$this->course->name}, {$this->start} ({$this->status})";
+    }
+
 }
