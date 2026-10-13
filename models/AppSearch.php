@@ -1,7 +1,7 @@
 <?php
 
 namespace app\models;
-
+use yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\App;
@@ -42,6 +42,11 @@ class AppSearch extends App
     public function search($params, $formName = null)
     {
         $query = App::find();
+
+        // PKGH пользователь видит только свои заявки, а администратор - все
+        if (!Yii::$app->user->identity->isAdmin()) {
+            $query->andWhere(['user_id' => Yii::$app->user->identity->id]);
+        }
 
         // add conditions that should always apply here
 

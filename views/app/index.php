@@ -10,7 +10,7 @@ use kartik\grid\GridView;
 /** @var app\models\AppSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Apps';
+$this->title = (Yii::$app->user->identity->isAdmin() ? "Панель управления: заявки": "Заявки");
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="app-index">
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php if (!Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin()): ?>
     <p>
-        <?= Html::a('Навая заявка', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Навая заявка', ['create'], ['class' => 'btn btn-warning']) ?>
     </p>
     <?php endif ?>
 
@@ -33,14 +33,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'user_id',
-            'course_id',
+            [
+                'attribute' => 'course_id',
+                'content' => function($model) {return $model->course->name;},
+                'filter' => false
+            ],
             'start',
-            'pament_option',
-            //'status',
+            'status',
             //'feedback:ntext',
             [
                 'class' => ActionColumn::className(),
+                'template' => '{view}',
                 'urlCreator' => function ($action, App $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }

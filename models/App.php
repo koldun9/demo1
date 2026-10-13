@@ -55,12 +55,12 @@ class App extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
-            'course_id' => 'Course ID',
-            'start' => 'Start',
-            'pament_option' => 'Pament Option',
-            'status' => 'Status',
-            'feedback' => 'Feedback',
+            'user_id' => 'ID Пользователя',
+            'course_id' => 'ID Курса',
+            'start' => 'Дата начала обучения',
+            'pament_option' => 'Способ оплаты',
+            'status' => 'Статус',
+            'feedback' => 'Отзыв',
         ];
     }
 

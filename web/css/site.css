@@ -9,6 +9,7 @@
     font-family: "Rubik-Bubbles";
     color: #fff2b2;
     text-shadow: 0 0 15px #ffe08a;
+    transition: text-shadow 0.3s ease;
 }
 
 .logo:hover {

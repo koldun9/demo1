@@ -38,6 +38,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return [
             [['admin'], 'default', 'value' => 0],
             [['username', 'password', 'full_name', 'phone', 'email'], 'required'],
+            ['username', 'match', 'pattern' => '/^[a-z0-9]{6,}$/i', 'message' => 'Латиница и цифры, не менее 6 символов'],
+            ['full_name', 'match', 'pattern' => '/^[а-яё\s]+$/iu', 'message'=> 'Кириллица и пробелы'],
+            ['email', 'email'],
+            [['password'], 'string', 'min' => 8],
             [['admin'], 'integer'],
             [['username', 'password', 'full_name', 'phone', 'email'], 'string', 'max' => 255],
             [['username'], 'unique'],
@@ -51,11 +55,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
-            'username' => 'Username',
-            'password' => 'Password',
-            'full_name' => 'Full Name',
-            'phone' => 'Phone',
-            'email' => 'Email',
+            'username' => 'Логин (латиница и цифры, не менее 6 символов)',
+            'password' => 'Пароль (минимум 8 символов)',
+            'full_name' => 'ФИО (кириллица и пробелы)',
+            'phone' => 'Телефон',
+            'email' => 'Адрес электронной почты',
             'admin' => 'Admin',
         ];
     }

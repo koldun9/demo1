@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use yii;
 use app\models\App;
 use app\models\AppSearch;
 use app\models\Course;
@@ -146,7 +146,21 @@ class AppController extends Controller
     protected function findModel($id)
     {
         if (($model = App::findOne(['id' => $id])) !== null) {
-            return $model;
+            // PKGH защита от IDOR
+            if (!Yii::$app->user->identity->isAdmin())
+            {
+                if($model->user_id == Yii::$app->user->identity->id)
+                {
+                    return $model;
+                }
+            }
+            else
+            {
+                return $model;
+            }
+            
+            
+            
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');

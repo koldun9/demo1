@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\models\App $model */
 
-$this->title = $model->id;
+$this->title = "Заявка ". $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Apps', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -18,22 +18,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $updateText = Yii::$app->user->identity->isAdmin() ? "Сменить статус" : "Оставить отзыв"; ?>
 
     <p>
-        <?= Html::a($updateText, ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?= Html::a($updateText, ['update', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
-            'user_id',
-            'course_id',
+            [
+                'attribute' => 'user_id',
+                'value' => $model->user->full_name,
+            ],
+            [
+                'attribute' => 'course_id',
+                'value' => $model->course->name,
+            ],
             'start',
             'pament_option',
             'status',
